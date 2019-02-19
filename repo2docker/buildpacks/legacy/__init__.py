@@ -83,8 +83,13 @@ class LegacyBinderDockerBuildPack(DockerBuildPack):
             'legacy/python3.frozen.yml': '/tmp/python3.frozen.yml',
         }
 
-    def build(self, client, image_spec, memory_limit, build_args, cache_from, extra_build_kwargs):
+    def build(self, client, image_spec, memory_limit, build_args, cache_from, extra_build_kwargs=None):
         """Build a legacy Docker image."""
+
+        # check if extra_build_kwargs is empty, if so instantiate an empty dictionary.
+        if extra_build_kwargs is None:
+            extra_build_kwargs = {}
+
         with open(self.dockerfile, 'w') as f:
             f.write(self.render())
         for env in ('root', 'python3'):

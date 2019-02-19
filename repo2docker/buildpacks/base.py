@@ -465,7 +465,11 @@ class BuildPack:
             appendix=self.appendix,
         )
 
-    def build(self, client, image_spec, memory_limit, build_args, cache_from, extra_build_kwargs):
+    def build(self, client, image_spec, memory_limit, build_args, cache_from, extra_build_kwargs=None):
+        # check if extra_build_kwargs is empty, if so instantiate an empty dictionary.
+        if extra_build_kwargs is None:
+            extra_build_kwargs = {}
+
         tarf = io.BytesIO()
         tar = tarfile.open(fileobj=tarf, mode='w')
         dockerfile_tarinfo = tarfile.TarInfo("Dockerfile")

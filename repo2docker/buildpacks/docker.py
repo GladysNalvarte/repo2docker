@@ -19,8 +19,13 @@ class DockerBuildPack(BuildPack):
         with open(Dockerfile) as f:
             return f.read()
 
-    def build(self, client, image_spec, memory_limit, build_args, cache_from, extra_build_kwargs):
+    def build(self, client, image_spec, memory_limit, build_args, cache_from, extra_build_kwargs=None):
         """Build a Docker image based on the Dockerfile in the source repo."""
+
+        # check if extra_build_kwargs is empty, if so instantiate an empty dictionary.
+        if extra_build_kwargs is None:
+            extra_build_kwargs = {}
+
         limits = {
             # Always disable memory swap for building, since mostly
             # nothing good can come of that.
